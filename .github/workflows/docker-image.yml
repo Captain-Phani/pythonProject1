@@ -1,0 +1,28 @@
+
+name: Publish Docker Image to Docker Hub
+
+on:
+  push:
+    branches: ['master']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build the Docker image
+        run: |
+          docker build -t docker-sample .
+          docker tag docker-sample:latest phani0707/pythonproject1:test1
+          docker push phani0707/pythonproject1:test1
+        
+
+      
